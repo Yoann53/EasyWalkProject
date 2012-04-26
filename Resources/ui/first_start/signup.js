@@ -70,7 +70,7 @@ var btn_send = Ti.UI.createButton({
 btn_send.addEventListener('click', function(){
 	
 	try{
-		
+		//qsd
 		//Handle all textfield values
 		var obj_params = {
 			login : txt_login.value,
