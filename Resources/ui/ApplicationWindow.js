@@ -6,7 +6,7 @@ exports.ApplicationWindow = function() {
 	Titanium.UI.setBackgroundColor('#fff');  
 	var tabGroup = Titanium.UI.createTabGroup();  
 	
-	//Check in database if user is already logged
+	//Check cookie if user is already logged
 	/*
 	var svc_file = require('/services/resources_services/file');
 	var logged = svc_file.isFileExist();

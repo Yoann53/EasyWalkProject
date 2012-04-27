@@ -2,25 +2,25 @@
  * @author Yoann GAUCHARD
  */
 
+//Verify email address
 
-exports.check_mail = function(str_emailAddress){
+exports.check_mail = function(emailAddress){
   
   	try{
 		
-	  	var boo_mailOK; 
-	    var str_mail = str_emailAddress;  
+	  	var mailOK; 
+	    var mail = emailAddress;  
 	    
 	    var obj_filter = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;  
-	    if (obj_filter.test(str_mail))  
+	    if (obj_filter.test(mail))  
 	    {  
-	        boo_mailOK = true;  
+	        mailOK = true;  
 	    }  
 	    else  
 	    {  
-	        boo_mailOK = false;  
+	        mailOK = false;  
 	    }  
-	    return (boo_mailOK);	
-	  		
+	    return mailOK;	
 	  		
   	}catch(e){
   		

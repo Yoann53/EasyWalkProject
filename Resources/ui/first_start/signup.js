@@ -3,6 +3,8 @@
  */
 
 var win_signup = Titanium.UI.currentWindow;
+var scrollableview_signup = Ti.UI.createScrollableView();
+var view_signup = Ti.UI.createView();
 
 // initialize to all modes
 win_signup.orientationModes = [
@@ -67,10 +69,13 @@ var btn_send = Ti.UI.createButton({
 		top:280
 });
 
+//global variable
+var ent_user;
+
 btn_send.addEventListener('click', function(){
 	
 	try{
-		//qsd
+		
 		//Handle all textfield values
 		var obj_params = {
 			login : txt_login.value,
@@ -83,7 +88,18 @@ btn_send.addEventListener('click', function(){
 		var svc_profile = require('services/business_services/profile');
 	
 		//Call signup service to register the current user on webserver
-		svc_profile.signup(obj_params);	
+		var result  = svc_profile.signup(obj_params);	
+		
+		
+		if(result.typeOf == String) alert(result);
+		else if(result.typeOf == Object) {
+			ent_user = result;
+			
+			var win_start = Titanium.UI.createWindow({  
+		    	title:'Bienvenue sur EasyWalk',
+		    	url:'ui/start.js'  
+			});
+		}//end else
 	
 	} catch(e) {
 		
@@ -92,10 +108,14 @@ btn_send.addEventListener('click', function(){
 	}
 });
 
-win_signup.add(txt_login);
-win_signup.add(txt_password);
-win_signup.add(txt_confirm_password);
-win_signup.add(txt_username);
-win_signup.add(btn_send);
+view_signup.add(txt_login);
+view_signup.add(txt_password);
+view_signup.add(txt_confirm_password);
+view_signup.add(txt_username);
+view_signup.add(btn_send);
+
+scrollableview_signup.add(view_signup);
+win_signup.add(scrollableview_signup);
+
 
 
