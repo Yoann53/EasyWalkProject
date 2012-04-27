@@ -19,7 +19,7 @@ var btn_signup = Ti.UI.createButton({
 	top:100
 });
 	
-var btn_signin = Ti.UI.createButton({
+var btn_login = Ti.UI.createButton({
 	height:44,
 	width:200,
 	title:'S\'authentifier',
@@ -27,7 +27,7 @@ var btn_signin = Ti.UI.createButton({
 });
 
 win_welcome.add(btn_signup);
-win_welcome.add(btn_signin);
+win_welcome.add(btn_login);
 
 btn_signup.addEventListener('click', function()
 {
@@ -50,5 +50,5 @@ btn_login.addEventListener('click', function()
 		backButtonTitle: 'Retour'
 	});
 
-	Ti.UI.currentTab.open(win_signup);
+	Ti.UI.currentTab.open(win_login);
 });
