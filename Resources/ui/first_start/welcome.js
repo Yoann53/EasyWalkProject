@@ -40,3 +40,15 @@ btn_signup.addEventListener('click', function()
 
 	Ti.UI.currentTab.open(win_signup);
 });
+
+btn_login.addEventListener('click', function()
+{
+	var win_login = Titanium.UI.createWindow({
+		title: 'Authentification',
+		backgroundColor:'#336699',
+		url: 'login.js',
+		backButtonTitle: 'Retour'
+	});
+
+	Ti.UI.currentTab.open(win_signup);
+});

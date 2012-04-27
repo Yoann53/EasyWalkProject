@@ -2,15 +2,79 @@
  * @author Yoann GAUCHARD
  */
 
+var win_login = Titanium.UI.currentWindow;
 
-var lab_title = Titanium.UI.createLabel({
-	text:'Bienvenue sur EasyWalk',
-	height:20,
-	width:400,
-	//shadowColor:'#aaa',
-	//shadowOffset:{x:5,y:5},
-	color:'black',
-	font:{fontSize:20, fontStyle:'italic'},
+// initialize to all modes
+win_login.orientationModes = [
+	Titanium.UI.PORTRAIT,
+	Titanium.UI.LANDSCAPE_LEFT,
+	Titanium.UI.LANDSCAPE_RIGHT
+];
+
+var txt_login = Titanium.UI.createTextField({
+	color:'#336699',
 	top:20,
-	textAlign:'center'	
+	left:35,
+	width:250,
+	height:40,
+	hintText:'Login',
+	keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
+	returnKeyType:Titanium.UI.RETURNKEY_DEFAULT,
+	borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
 });
+
+var txt_password = Titanium.UI.createTextField({
+	color:'#336699',
+	top:80,
+	left:35,
+	width:250,
+	height:40,
+	hintText:'Mot de passe',
+	keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
+	returnKeyType:Titanium.UI.RETURNKEY_DEFAULT,
+	borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
+});
+
+var btn_login = Ti.UI.createButton({
+		height:44,
+		width:150,
+		title:'Login',
+		top:150
+});
+
+btn_login.addEventListener('click', function(){
+	
+	try{
+		
+		//Handle all textfield values
+		var obj_params = {
+			login : txt_login.value,
+			password : txt_password.value,
+		}
+		
+		//Invoke profile services
+		var svc_profile = require('services/business_services/profile');
+		
+		//Call signup service to register the current user on webserver
+		var result = svc_profile.login(obj_params);	
+		
+		if(result.typeOf == String) alert(result);
+		else if(result.typeOf == Object) {
+			ent_user = result;
+			
+			var win_start = Titanium.UI.createWindow({  
+		    	title:'Bienvenue sur EasyWalk',
+		    	url:'ui/start.js'  
+			});
+		}//end else
+		
+	} catch(e) {
+		
+		Ti.API.info('[DEV] SignUp ui EventListener failed : ' + e);
+		
+	}
+});
+
+win_login.add(txt_login);
+win_login.add(txt_password);
+win_login.add(btn_login);
