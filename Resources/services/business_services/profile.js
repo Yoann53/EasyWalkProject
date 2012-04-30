@@ -7,7 +7,7 @@
 
 //Signup Service
 
-exports.signup = function(user_args){
+exports.signup = function(obj_userArgs){
 	
 	// 1 - Check if all fields aren't empty
 	// 2 - Check if login is a valid
@@ -22,7 +22,7 @@ exports.signup = function(user_args){
 		
 		//** 1 - Check if all fields aren't empty **//
 		
-		if (user_args.login == '' || user_args.password1 == '' || user_args.password2 == '' || user_args.username == '') {
+		if (obj_userArgs.login == '' || obj_userArgs.password1 == '' || obj_userArgs.password2 == '' || obj_userArgs.username == '') {
 	    	return 'Veuillez renseigner tous les champs !';
 		}
 		
@@ -34,7 +34,7 @@ exports.signup = function(user_args){
     	var svc_utils = require('services/utils_services/utils');
     	
     	//Call checkmail service to verify mail synthax
-    	var mailok = svc_utils.check_mail(user_args.login);
+    	var mailok = svc_utils.check_mail(obj_userArgs.login);
     	
     	if(!mailok) return 'Adresse mail invalide !';
 		
@@ -46,7 +46,7 @@ exports.signup = function(user_args){
 		var svc_web = require('services/resources_services/web');
 		
 		//Call "isExist" service to check if current user already exists
-		var isExist = svc_web.isExist(user_args.login);
+		var isExist = svc_web.isExist(obj_userArgs.login);
 		
 		if(isExist) return 'Login déjà utilisé !';			
 		
@@ -54,28 +54,35 @@ exports.signup = function(user_args){
 		
 		//** 4 - Save user on web server **//
 		
-		if(user_args.password1 != user_args.password2) return 'Mots de passe différents !';	 		
+		if(obj_userArgs.password1 != obj_userArgs.password2) return 'Mots de passe différents !';	 		
+					
+					
 					
 		//** 5 - Save user on web server **//
 		
 		//Call postUserInfo service to register the current user on webserver
-		var success = svc_web.postUserInfo(user_args);
+		var success = svc_web.postUserInfo(obj_userArgs);
 		
 		if(!success) return 'L\'inscription a échouée !';
 		else {
 			
+			
+			
 			//** 6 - Create one cookie on mobile **//
 			
 			var obj_userParams = {
-				login : user_args.login,
-				password : Ti.Utils.md5HexDigest(user_args.password1),
-				username : user_args.username,
+				login : obj_userArgs.login,
+				password : Ti.Utils.md5HexDigest(obj_userArgs.password1),
+				username : obj_userArgs.username,
 			}
 			
-			var file_userCookie = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,            
-    		'userCookie.txt');
+			//Invoke file services
+			var svc_file = require('services/resources_services/file');
 			
-			file_userCookie.write(JSON.stringify(obj_userParams));				
+			//Call "writeUserCookie" service to log the user
+			svc_file.writeUserCookie(obj_userParams);		
+				
+				
 				
 			//** 7 - Instanciate current user in global scope  **//
 			
@@ -83,9 +90,9 @@ exports.signup = function(user_args){
 			var User = require('business_entities/user');  
 			
 			var obj_user = new User();
-			obj_user.setLogin(user_args.login);
-			obj_user.setPassword(user_args.password1);
-			obj_user.setUsername(user_args.username);
+			obj_user.setLogin(obj_userArgs.login);
+			obj_user.setPassword(obj_userArgs.password1);
+			obj_user.setUsername(obj_userArgs.username);
 			
 			return obj_user;
 		}//end else
@@ -96,3 +103,56 @@ exports.signup = function(user_args){
 		
 	}
 }
+
+
+//Login Service
+
+exports.login = function(obj_userArgs){
+	
+	try{
+		//Invoke web services
+		var svc_web = require('services/resources_services/web');
+		
+		//Call "login" service to log user on app
+		var success = svc_web.login(obj_userArgs);
+		if(!success) return "Authentification incorrecte !";
+		else {
+			
+			//Call "etuserInfo" service to get user infos
+			var obj_userInfo = svc_web.getUserInfo(obj_userArgs.login);
+			
+			//** 1 - Create one cookie on mobile **//
+			
+			var obj_userParams = {
+				login : obj_userInfo.login,
+				password : obj_userInfo.password,
+				username : obj_userInfo.username
+			}
+			
+			//Invoke file services
+			var svc_file = require('services/resources_services/file');
+			
+			//Call "writeUserCookie" service to log the user
+			svc_file.writeUserCookie(obj_userParams);			
+				
+			//** 2 - Instanciate current user in global scope  **//
+			
+			//Invoke user entity
+			var User = require('business_entities/user');  
+			
+			var obj_user = new User();
+			obj_user.setLogin(obj_userInfo.login);
+			obj_user.setPassword(obj_userInfo.password);
+			obj_user.setUsername(obj_userInfo.username);
+			
+			return obj_user;
+			
+		}//end else 
+	} catch(e) {
+		
+		Ti.API.info('[DEV] Login profile service failed : ' + e);
+		
+	}
+}
+
+

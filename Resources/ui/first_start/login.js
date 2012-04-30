@@ -42,6 +42,8 @@ var btn_login = Ti.UI.createButton({
 		top:150
 });
 
+var ent_user;
+
 btn_login.addEventListener('click', function(){
 	
 	try{
@@ -58,14 +60,17 @@ btn_login.addEventListener('click', function(){
 		//Call signup service to register the current user on webserver
 		var result = svc_profile.login(obj_params);	
 		
-		if(result.typeOf == String) alert(result);
-		else if(result.typeOf == Object) {
+		if(typeof(result) == 'string') alert(result);
+		else if(typeof(result) == 'object') {
 			ent_user = result;
 			
 			var win_start = Titanium.UI.createWindow({  
 		    	title:'Bienvenue sur EasyWalk',
-		    	url:'ui/start.js'  
+		    	backgroundColor:'#336699',
+		    	url:'../start.js'  
 			});
+			
+			Ti.UI.currentTab.open(win_start);
 		}//end else
 		
 	} catch(e) {

@@ -7,12 +7,8 @@ exports.ApplicationWindow = function() {
 	var tabGroup = Titanium.UI.createTabGroup();  
 	
 	//Check cookie if user is already logged
-	/*
 	var svc_file = require('/services/resources_services/file');
-	var logged = svc_file.isFileExist();
-	*/
-	
-	var logged = false;
+	var logged = svc_file.isCookieExist();
 	
 	if(!logged){
 		//First start 
