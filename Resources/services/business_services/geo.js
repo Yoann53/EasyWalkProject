@@ -2,26 +2,18 @@
  * @author Yoann GAUCHARD
  */
 
-export.displayMap = function(){
-	
-	var mapview = Titanium.Map.createView({
-	    mapType: Titanium.Map.STANDARD_TYPE,
-	    region: {
-	    	latitude:37.389569, 
-	    	longitude:-122.050212,
-	        latitudeDelta:0.1, 
-	        longitudeDelta:0.1},
-	    animate:true,
-	    regionFit:true,
-	    userLocation:false
-	});
-}
-/*
-export.monitorGPSPosition = function(){
+
+
+
+
+exports.monitorGPSPosition = function(){
 	
 	if (Ti.Geolocation.locationServicesEnabled) {
-	    Titanium.Geolocation.purpose = 'Get Current Location';
-	    Titanium.Geolocation.addEventListener('location', function(e) {
+	    Ti.Geolocation.purpose = 'Get Current Location';
+	    Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
+	    Ti.Geolocation.distanceFilter = 10;
+	
+	    Ti.Geolocation.addEventListener('location', function(e) {
 	        if (e.error) {
 	            alert('Error: ' + e.error);
 	        } else {
@@ -29,7 +21,8 @@ export.monitorGPSPosition = function(){
 	        }
 	    });
 	} else {
-	    alert('Please enable location services');
+	    alert('Activer le service de location svp');
 	}
-}
-*/
+	
+	
+};

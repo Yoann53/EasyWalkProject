@@ -11,14 +11,12 @@ win_start.orientationModes = [
 	Titanium.UI.LANDSCAPE_RIGHT
 ];
 
-//Invoke geo services
-var svc_geo = require('services/business_services/geo');
 
-//var mapview = svc_geo.displayMap();
+//Include all scrollable views
+Ti.include('./scrollable_views/view_main.js');
 
 
-var tab_views = [];
-//tab_views.push(mapview);
+var tab_views = [view_main];
 
 var scrollableview = Ti.UI.createScrollableView({
 	showPagingControl : true,
@@ -28,5 +26,3 @@ var scrollableview = Ti.UI.createScrollableView({
 });
 
 win_start.add(scrollableview);
-
-//svc_geo.monitorGPSPositiion();
