@@ -1,1 +1,1 @@
-/Users/yoanngauchard/Documents/Titanium Studio Workspace/EasyWalk/Resources/business_entities/User.js
+/Users/yoanngauchard/Documents/Titanium Studio Workspace/EasyWalk/Resources/business_entities/user.js

@@ -61,21 +61,30 @@ exports.signup = function(user_args){
 		//Call postUserInfo service to register the current user on webserver
 		var success = svc_web.postUserInfo(user_args);
 		
-		if(!success) return 'L\inscription a échouée !';
+		if(!success) return 'L\'inscription a échouée !';
 		else {
 			
 			//** 6 - Create one cookie on mobile **//
-					
-					
+			
+			var obj_userParams = {
+				login : user_args.login,
+				password : Ti.Utils.md5HexDigest(user_args.password1),
+				username : user_args.username,
+			}
+			
+			var file_userCookie = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,            
+    		'userCookie.txt');
+			
+			file_userCookie.write(JSON.stringify(obj_userParams));				
 				
 			//** 7 - Instanciate current user in global scope  **//
 			
 			//Invoke user entity
-			var ent_user = require('business_entities/user.js');  
+			var User = require('business_entities/user');  
 			
 			var obj_user = new User();
 			obj_user.setLogin(user_args.login);
-			obj_user.setPassword(user_args.password);
+			obj_user.setPassword(user_args.password1);
 			obj_user.setUsername(user_args.username);
 			
 			return obj_user;

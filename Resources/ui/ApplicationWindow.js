@@ -18,11 +18,13 @@ exports.ApplicationWindow = function() {
 		//First start 
 		var win_welcome = Titanium.UI.createWindow({  
 	    	title:'Bienvenue sur EasyWalk',
+	    	backgroundColor:'#336699',
 	    	url:'ui/first_start/welcome.js'  
 		});	
 	} else {
 		var win_welcome = Titanium.UI.createWindow({  
 	    	title:'Bienvenue sur EasyWalk',
+	    	backgroundColor:'#336699',
 	    	url:'ui/start.js'  
 		});
 	}//end else  

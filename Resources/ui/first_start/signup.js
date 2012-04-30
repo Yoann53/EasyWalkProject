@@ -3,7 +3,7 @@
  */
 
 var win_signup = Titanium.UI.currentWindow;
-var scrollableview_signup = Ti.UI.createScrollableView();
+var scrollableview_signup = Ti.UI.createScrollView();
 var view_signup = Ti.UI.createView();
 
 // initialize to all modes
@@ -91,14 +91,17 @@ btn_send.addEventListener('click', function(){
 		var result  = svc_profile.signup(obj_params);	
 		
 		
-		if(result.typeOf == String) alert(result);
-		else if(result.typeOf == Object) {
+		if(typeof(result) == 'string') alert(result);
+		else if(typeof(result) == 'object') {
 			ent_user = result;
 			
 			var win_start = Titanium.UI.createWindow({  
 		    	title:'Bienvenue sur EasyWalk',
-		    	url:'ui/start.js'  
+		    	backgroundColor:'#336699',
+		    	url:'../start.js'  
 			});
+			
+			Ti.UI.currentTab.open(win_start);
 		}//end else
 	
 	} catch(e) {
