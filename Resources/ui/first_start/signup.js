@@ -3,7 +3,7 @@
  */
 
 var win_signup = Titanium.UI.currentWindow;
-var scrollableview_signup = Ti.UI.createScrollView();
+var scrollview_signup = Ti.UI.createScrollView();
 var view_signup = Ti.UI.createView();
 
 // initialize to all modes
@@ -117,8 +117,8 @@ view_signup.add(txt_confirm_password);
 view_signup.add(txt_username);
 view_signup.add(btn_send);
 
-scrollableview_signup.add(view_signup);
-win_signup.add(scrollableview_signup);
+scrollview_signup.add(view_signup);
+win_signup.add(scrollview_signup);
 
 
 
