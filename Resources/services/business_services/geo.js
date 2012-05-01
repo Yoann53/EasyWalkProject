@@ -2,6 +2,10 @@
  * @author Yoann GAUCHARD
  */
 
+//globals var
+exports.LATITUDE_BASE = 38.500000;
+exports.LONGITUDE_BASE = -121.050210;
+
 //Contnually moniitor GPS Position as soon as location change
 
 exports.monitorGPSPosition = function(){
@@ -22,7 +26,5 @@ exports.monitorGPSPosition = function(){
 	} else {
 	    alert('Activez le service gps.');
 	}
-	
-	
 	
 };
