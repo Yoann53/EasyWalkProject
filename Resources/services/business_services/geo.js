@@ -28,3 +28,13 @@ exports.monitorGPSPosition = function(){
 	}
 	
 };
+
+
+//Save current coords in temporary gpx file
+
+exports.saveCurrentCoords = function(obj_Coords){
+	
+	svc_file = require('services/resources_services/file');
+	
+	
+};
