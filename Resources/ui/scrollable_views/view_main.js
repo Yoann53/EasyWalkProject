@@ -4,6 +4,28 @@
 
 //Invoke geo services
 var svc_geo = require('services/business_services/geo'); 
+//Invoke Timer class
+var Timer = require('business_entities/timer');
+
+
+/*
+ * global vars
+ */
+var timer;
+
+
+/*
+ * functions
+ */
+function displayTimerCallback(obj_timer) {
+	lab_timer.text = obj_timer.h + ' : ' + obj_timer.m + ' : ' + obj_timer.s;
+}
+
+
+
+/*
+ * UI elements
+ */
 
 var view_main = Titanium.Map.createView({
     mapType: Titanium.Map.STANDARD_TYPE,
@@ -28,15 +50,24 @@ var anno_current = Ti.Map.createAnnotation({
 
 var btn_start = Ti.UI.createButton({
 	height : 44,
-	width : 44,
+	width : 55,
 	title : 'Start',
 	bottom : 40,
 	left : 40
 });
 
+var btn_pause = Ti.UI.createButton({
+	height : 44,
+	width : 55,
+	title : 'Pause',
+	bottom : 40,
+	left : 40,
+	visible : false
+});
+
 var btn_stop = Ti.UI.createButton({
 	height : 44,
-	width : 44,
+	width : 55,
 	title : 'Stop',
 	bottom : 40,
 	right : 40
@@ -58,20 +89,45 @@ var lab_timer =  Ti.UI.createLabel({
 	textAlign:'center'
 });
 
-svc_geo.monitorGPSPosition();
+
+/*
+ * Event Listeners
+ */
 
 btn_start.addEventListener('click', function(){
 	
-	Timer = require('business_entities/timer');
-	var timer = new Timer();
-	timer.start(displayCallback);
+	if(!timer) timer = new Timer();
+	timer.start(displayTimerCallback);
+	btn_pause.setVisible(true);
+	this.setVisible(false);
 	
 });
 
-function displayCallback(obj_timer){
-	lab_timer.text = String.format("%s : %s : %s", obj_timer.h, obj_timer.m, obj_timer.s);
-	//lab_timer.text = obj_timer.total_sec;
-}
+
+btn_pause.addEventListener('click', function(){
+	
+	timer.pause(displayTimerCallback);
+	
+	btn_pause.setVisible(false);
+	btn_start.setVisible(true);
+	
+});
+
+
+btn_stop.addEventListener('click', function(){
+	
+	if(timer) {
+		timer.stop(displayTimerCallback);
+		timer = null;
+	}
+	
+	if(btn_pause.getVisible) {
+		btn_pause.setVisible(false);
+		btn_start.setVisible(true);
+	}
+	
+});
+
 
 Ti.App.addEventListener('evtLocationUpdate', function(obj_coords){
 	
@@ -82,8 +138,21 @@ Ti.App.addEventListener('evtLocationUpdate', function(obj_coords){
 	
 });
 
+
+/*
+ * UI element adds	
+ */
+
 view_main.add(lab_timer);
 view_main.add(btn_start);
+view_main.add(btn_pause);
 view_main.add(btn_stop);
 view_main.addAnnotation(anno_current);
 
+
+
+/*
+ * Functions calls
+ */
+
+svc_geo.monitorGPSPosition();
