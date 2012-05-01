@@ -2,9 +2,7 @@
  * @author Yoann GAUCHARD
  */
 
-
-
-
+//Contnually moniitor GPS Position as soon as location change
 
 exports.monitorGPSPosition = function(){
 	
@@ -17,12 +15,14 @@ exports.monitorGPSPosition = function(){
 	        if (e.error) {
 	            alert('Error: ' + e.error);
 	        } else {
+	        	Ti.App.fireEvent('evtLocationUpdate',e.coords)
 	            Ti.API.info(e.coords);
 	        }
 	    });
 	} else {
-	    alert('Activer le service de location svp');
+	    alert('Activez le service gps.');
 	}
+	
 	
 	
 };
