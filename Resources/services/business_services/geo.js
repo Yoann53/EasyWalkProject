@@ -38,3 +38,28 @@ exports.saveCurrentCoords = function(obj_Coords){
 	
 	
 };
+
+exports.getGPXtrace = function(){
+	
+	svc_file = require('services/resources_services/file');
+	xml_gpxtrace = svc_file.readGPXfile();
+	Ti.API.info('test' + xml_gpxtrace);
+	var doc = Ti.XML.parseString(xml_gpxtrace);
+	var trace = doc.documentElement.getElementsByTagName('trkpt');
+	Ti.API.info(trace);
+	
+	var tab_XMLpositions = [];
+	var latitude;
+	var longitude;
+	for (var i=0; i < trace.length; i++) {
+		latitude = trace.item(i).getAttributes().item(0).nodeValue;
+		longitude = trace.item(i).getAttributes().item(1).nodeValue;
+		tab_XMLpositions[i] = {
+			longitude : longitude,
+			latitude : latitude
+		}
+		//Ti.API.info(tab_XMLpositions[i].longitude + '\n');
+	};
+	
+	return tab_XMLpositions;
+};

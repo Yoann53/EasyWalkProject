@@ -12,8 +12,8 @@ var Timer = require('business_entities/timer');
  * global vars
  */
 var timer;
-
-
+var arr_pos = svc_geo.getGPXtrace();
+Ti.API.info(arr_pos.length);
 /*
  * functions
  */
@@ -30,8 +30,8 @@ function displayTimerCallback(obj_timer) {
 var view_main = Titanium.Map.createView({
     mapType: Titanium.Map.STANDARD_TYPE,
     region: {
-    	latitude : svc_geo.LATITUDE_BASE, 
-    	longitude : svc_geo.LONGITUDE_BASE,
+    	latitude : arr_pos[0].latitude, 
+    	longitude : arr_pos[0].longitude,
         latitudeDelta : 0.1, 
         longitudeDelta : 0.1},
     animate : false,
@@ -41,10 +41,10 @@ var view_main = Titanium.Map.createView({
 
 var anno_current = Ti.Map.createAnnotation({
 	animate : true,
-	pincolor : Titanium.Map.ANNOTATION_RED,
+	pincolor : Titanium.Map.ANNOTATION_GREEN,
 	title : 'Vous êtes ici !',
-	latitude : svc_geo.LATITUDE_BASE,
-	longitude : svc_geo.LONGITUDE_BASE,
+	latitude : arr_pos[0].latitude, 
+	longitude : arr_pos[0].longitude
 });
 
 
@@ -76,7 +76,7 @@ var btn_stop = Ti.UI.createButton({
 var lab_timer =  Ti.UI.createLabel({
 	text:"start?",
 	height:40,
-	width:200,
+	width:320,
 	top:0,
 	left:0,
 	color:'#fff',
@@ -100,6 +100,9 @@ btn_start.addEventListener('click', function(){
 	timer.start(displayTimerCallback);
 	btn_pause.setVisible(true);
 	this.setVisible(false);
+	
+	//TEST
+	tracking();
 	
 });
 
@@ -155,4 +158,49 @@ view_main.addAnnotation(anno_current);
  * Functions calls
  */
 
-svc_geo.monitorGPSPosition();
+//svc_geo.monitorGPSPosition();
+
+function tracking(){
+	
+	var i = 1;
+	var anno;
+	var prec_anno;
+	var timerAnno = setInterval( function() {
+		
+		if(i < 35) {
+			anno = Ti.Map.createAnnotation({
+				animate : true,
+				pincolor : Titanium.Map.ANNOTATION_GREEN,
+				title : lab_timer.text,
+				latitude : 	arr_pos[i].latitude,
+				longitude : arr_pos[i].longitude
+			});
+			
+			if(!prec_anno) {
+				prec_anno = anno_current;
+			} else {
+				prec_anno.setPincolor(Titanium.Map.ANNOTATION_RED);
+			}
+			
+			view_main.addRoute({
+				name : 'myRoute',
+				width : 4,
+				color : '#f00',	
+				points : [
+					{latitude : prec_anno.latitude, longitude : prec_anno.longitude},
+					{latitude : arr_pos[i].latitude, longitude : arr_pos[i].longitude},
+				]
+			});
+			
+			view_main.addAnnotation(anno);
+			prec_anno = anno;
+			i++;	
+		} else {
+			clearInterval(timerAnno);
+			timerAnno = null;	
+		}
+	}, 3000);
+	
+}
+
+

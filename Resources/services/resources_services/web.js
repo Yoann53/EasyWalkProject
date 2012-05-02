@@ -39,7 +39,7 @@ exports.isExist = function(username){
 		Ti.API.info('[DEV] isExist web service failed : ' + e);
 		
 	}
-}
+};
 
 
 
@@ -80,7 +80,7 @@ exports.postUserInfo = function(user_args){
 		Ti.API.info('[DEV] postUserInfo web service failed : ' + e);
 		
 	}
-}
+};
 
 
 
@@ -117,7 +117,7 @@ exports.login = function(user_args){
 		Ti.API.info('[DEV] login web service failed : ' + e);
 		
 	}
-}
+};
 
 
 //getUserInfo service
@@ -164,4 +164,4 @@ exports.getUserInfo = function(login){
 	}
 	
 	
-}
+};

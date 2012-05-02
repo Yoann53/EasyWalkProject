@@ -12,7 +12,7 @@ exports.isCookieExist = function(str_filename) {
 	
 	if(file_userCookie.exists()) return true;
 	else return false;
-}
+};
 
 
 
@@ -24,4 +24,15 @@ exports.writeUserCookie = function(obj_userArgs){
 	var file_userCookie = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'userCookie.txt');
 			
 	file_userCookie.write(JSON.stringify(obj_userArgs));
-}
+};
+
+//Read XML Datas from local file
+
+exports.readGPXfile = function(){
+	
+	var file_gpx = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'test.gpx');
+	
+	var xml_text = file_gpx.read().text;
+	//Ti.API.info(xml_text);
+	return xml_text;
+};
