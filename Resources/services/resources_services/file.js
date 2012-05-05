@@ -36,3 +36,15 @@ exports.readGPXfile = function(){
 	//Ti.API.info(xml_text);
 	return xml_text;
 };
+
+exports.writeGPXfile = function(obj_coords) {
+	
+	var file_gpx = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'temp.gpx');
+	var str_data = '<?xml version="1.0"?>\n <gpx version="1.1" creator="EasyWalkGroup">\n';
+	str_data += '	<trk>\n';
+	str_data += '		<name>temp</name>\n';
+	str_data += '		<trkseg>\n';
+	
+	
+}
+

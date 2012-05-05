@@ -42,10 +42,11 @@ Timer.prototype.start = function(callback) {
 
 //Timer pause method
 
-Timer.prototype.pause = function(callback) {
+Timer.prototype.pause = function() {
 	clearInterval(this.timer);
     this.timer = null;
 };
+
 
 //Timer stop method
 

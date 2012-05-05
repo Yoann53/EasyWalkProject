@@ -2,18 +2,19 @@
  * @author Yoann GAUCHARD
  */
 
-//Invoke geo services
-var svc_geo = require('services/business_services/geo'); 
-//Invoke Timer class
-var Timer = require('business_entities/timer');
-
 
 /*
  * global vars
  */
-var timer;
-var arr_pos = svc_geo.getGPXtrace();
-Ti.API.info(arr_pos.length);
+//Invoke geo services
+var Geo = require('services/business_services/geo'); 
+var _geo =  new Geo();
+
+//Invoke Timer class
+var Timer = require('services/utils_services/timer')
+var _timer;
+
+
 /*
  * functions
  */
@@ -30,8 +31,8 @@ function displayTimerCallback(obj_timer) {
 var view_main = Titanium.Map.createView({
     mapType: Titanium.Map.STANDARD_TYPE,
     region: {
-    	latitude : arr_pos[0].latitude, 
-    	longitude : arr_pos[0].longitude,
+    	latitude : _geo.getArr_GPXpos()[0].latitude, 
+    	longitude : _geo.getArr_GPXpos()[0].longitude,
         latitudeDelta : 0.1, 
         longitudeDelta : 0.1},
     animate : false,
@@ -39,12 +40,11 @@ var view_main = Titanium.Map.createView({
     userLocation : false
 });
 
-var anno_current = Ti.Map.createAnnotation({
-	animate : true,
-	pincolor : Titanium.Map.ANNOTATION_GREEN,
-	title : 'Vous êtes ici !',
-	latitude : arr_pos[0].latitude, 
-	longitude : arr_pos[0].longitude
+var view_top = Titanium.UI.createView({
+	backgroundColor:'#0AA',
+	height:100,
+	width:'auto',
+	top:-100
 });
 
 
@@ -76,18 +76,19 @@ var btn_stop = Ti.UI.createButton({
 var lab_timer =  Ti.UI.createLabel({
 	text:"start?",
 	height:40,
-	width:320,
+	width:230,
 	top:0,
 	left:0,
 	color:'#fff',
 	borderRadius:10,
 	backgroundColor:'#000',
 	font:{
-		fontSize:30,
+		fontSize:10,
 		fontWeight:'bold'
 	},
 	textAlign:'center'
 });
+
 
 
 /*
@@ -96,8 +97,19 @@ var lab_timer =  Ti.UI.createLabel({
 
 btn_start.addEventListener('click', function(){
 	
-	if(!timer) timer = new Timer();
-	timer.start(displayTimerCallback);
+	//Add top view
+	view_main.add(view_top);
+	
+	//ScrollDown animation
+	var scrolldownAnimation = Ti.UI.createAnimation({
+		top : 0,
+		duration : 800
+	});
+	view_top.animate(scrolldownAnimation);
+	
+	
+	if(!_timer) _timer = new Timer();
+	_timer.start(displayTimerCallback);
 	btn_pause.setVisible(true);
 	this.setVisible(false);
 	
@@ -109,7 +121,7 @@ btn_start.addEventListener('click', function(){
 
 btn_pause.addEventListener('click', function(){
 	
-	timer.pause(displayTimerCallback);
+	_timer.pause(displayTimerCallback);
 	
 	btn_pause.setVisible(false);
 	btn_start.setVisible(true);
@@ -119,10 +131,17 @@ btn_pause.addEventListener('click', function(){
 
 btn_stop.addEventListener('click', function(){
 	
-	if(timer) {
-		timer.stop(displayTimerCallback);
-		timer = null;
+	if(_timer) {
+		_timer.stop(displayTimerCallback);
+		_timer = null;
 	}
+	
+	var scrollUpAnimation = Ti.UI.createAnimation({
+		top : -100,
+		duration : 800 
+	});
+	
+	view_top.animate(scrollUpAnimation);
 	
 	if(btn_pause.getVisible) {
 		btn_pause.setVisible(false);
@@ -135,10 +154,26 @@ btn_stop.addEventListener('click', function(){
 Ti.App.addEventListener('evtLocationUpdate', function(obj_coords){
 	
 	var tab_anno = view_main.getAnnotations();
+	Ti.API.info('Annotations de la map : \n'+tab_anno);
 	tab_anno[0].latitude = obj_coords.latitude;
 	tab_anno[0].longitude = obj_coords.longitude;
 	view_main.setAnnotations(tab_anno);
 	
+	
+	id_anno++;
+	
+	var anno_new = Ti.Map.createAnnotation({
+		id : id_anno,
+		animate : true,
+		pincolor : Titanium.Map.ANNOTATION_GREEN,
+		title : 'Vous êtes ici !',
+		latitude : 	obj_coords.latitude,
+		longitude : obj_coords.longitude
+	});
+	
+	anno_current = anno;
+	
+	view_main.addAnnotation(anno_current);
 });
 
 
@@ -146,11 +181,11 @@ Ti.App.addEventListener('evtLocationUpdate', function(obj_coords){
  * UI element adds	
  */
 
-view_main.add(lab_timer);
+view_top.add(lab_timer);
 view_main.add(btn_start);
 view_main.add(btn_pause);
 view_main.add(btn_stop);
-view_main.addAnnotation(anno_current);
+view_main.addAnnotation(_geo.getAnno_current());
 
 
 
@@ -172,12 +207,12 @@ function tracking(){
 				animate : true,
 				pincolor : Titanium.Map.ANNOTATION_GREEN,
 				title : lab_timer.text,
-				latitude : 	arr_pos[i].latitude,
-				longitude : arr_pos[i].longitude
+				latitude : 	_geo.getArr_GPXpos()[i].latitude,
+				longitude : _geo.getArr_GPXpos()[i].longitude
 			});
 			
 			if(!prec_anno) {
-				prec_anno = anno_current;
+				prec_anno = _geo.getAnno_current();
 			} else {
 				prec_anno.setPincolor(Titanium.Map.ANNOTATION_RED);
 			}
@@ -188,7 +223,7 @@ function tracking(){
 				color : '#f00',	
 				points : [
 					{latitude : prec_anno.latitude, longitude : prec_anno.longitude},
-					{latitude : arr_pos[i].latitude, longitude : arr_pos[i].longitude},
+					{latitude : _geo.getArr_GPXpos()[i].latitude, longitude : _geo.getArr_GPXpos()[i].longitude},
 				]
 			});
 			
