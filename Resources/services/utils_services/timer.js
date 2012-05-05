@@ -14,6 +14,7 @@ function Timer() {
 	this.s = 0; //secondes
 	this.totalsec = 0; //total of secondes 
 	this.timer = null; //timer function
+	this.isStart = false;
 }
 
 
@@ -22,18 +23,16 @@ function Timer() {
 Timer.prototype.start = function(callback) {
     var self = this; 
     self.timer = setInterval( function() {
-    	self.totalsec += 1 ;
-    	//Ti.API.info(self.totalsec); 
+    	self.totalsec += 1 ; 
     	self.h = Math.floor(self.totalsec / 3600);
-    	//Ti.API.info(self.h); 
     	self.m = Math.floor(self.totalsec / 60);
-    	//Ti.API.info(self.m); 
     	self.s = self.totalsec % 60;
-    	//Ti.API.info(self.s); 
     	
     	if(self.h < 10) self.h = '0' + self.h;
     	if(self.m < 10) self.m = '0' + self.m;
     	if(self.s < 10) self.s = '0' + self.s;
+    	
+    	self.isStart = true;
     	
     	callback(self);
     }, 1000 );
@@ -45,6 +44,7 @@ Timer.prototype.start = function(callback) {
 Timer.prototype.pause = function() {
 	clearInterval(this.timer);
     this.timer = null;
+    self.isStart = false;
 };
 
 
@@ -63,7 +63,18 @@ Timer.prototype.stop = function(callback) {
     self.m = '0' + self.m;
     self.s = '0' + self.s;
     
+    self.isStart = false;
+    
     callback(self);
 };
+
+
+/*
+ * Accessors
+ */
+
+Timer.prototype.getIsStart = function(){
+	return this.isStart;
+}
 
 module.exports = Timer;

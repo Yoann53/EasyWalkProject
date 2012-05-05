@@ -14,6 +14,7 @@ var _geo =  new Geo();
 var Timer = require('services/utils_services/timer')
 var _timer;
 
+var scrolled = false;
 
 /*
  * functions
@@ -22,7 +23,9 @@ function displayTimerCallback(obj_timer) {
 	lab_timer.text = obj_timer.h + ' : ' + obj_timer.m + ' : ' + obj_timer.s;
 }
 
-
+function displayAlertCallback() {
+	
+}
 
 /*
  * UI elements
@@ -47,6 +50,14 @@ var view_top = Titanium.UI.createView({
 	top:-100
 });
 
+var btn_scroll = Ti.UI.createButton({
+	height : 20,
+	width : 20,
+	title : 'o',
+	bottom : 0,
+	left : 110,
+	color : "red"
+});
 
 var btn_start = Ti.UI.createButton({
 	height : 44,
@@ -101,12 +112,14 @@ btn_start.addEventListener('click', function(){
 	view_main.add(view_top);
 	
 	//ScrollDown animation
-	var scrolldownAnimation = Ti.UI.createAnimation({
-		top : 0,
-		duration : 800
-	});
-	view_top.animate(scrolldownAnimation);
-	
+	if(!scrolled) {
+		var scrolldownAnimation = Ti.UI.createAnimation({
+			top : 0,
+			duration : 800
+		});
+		view_top.animate(scrolldownAnimation);
+		scrolled = true;
+	}	
 	
 	if(!_timer) _timer = new Timer();
 	_timer.start(displayTimerCallback);
@@ -136,12 +149,16 @@ btn_stop.addEventListener('click', function(){
 		_timer = null;
 	}
 	
-	var scrollUpAnimation = Ti.UI.createAnimation({
-		top : -100,
-		duration : 800 
-	});
-	
-	view_top.animate(scrollUpAnimation);
+	//ScrollUp animation
+	if(scrolled) {
+		var scrollUpAnimation = Ti.UI.createAnimation({
+			top : -100,
+			duration : 800 
+		});
+		
+		view_top.animate(scrollUpAnimation);
+		scrolled = false;
+	}
 	
 	if(btn_pause.getVisible) {
 		btn_pause.setVisible(false);
@@ -150,20 +167,38 @@ btn_stop.addEventListener('click', function(){
 	
 });
 
+btn_scroll.addEventListener('click', function(){
+	
+	if(!scrolled) {
+		//ScrollDown animation
+		var scrolldownAnimation = Ti.UI.createAnimation({
+			top : 0,
+			duration : 800
+		});
+		view_top.animate(scrolldownAnimation);
+		scrolled = true;	
+	} else {
+		var scrollUpAnimation = Ti.UI.createAnimation({
+			top : -80,
+			duration : 800 
+		});
+		
+		view_top.animate(scrollUpAnimation);
+		scrolled = false;
+	}
+});	
 
 Ti.App.addEventListener('evtLocationUpdate', function(obj_coords){
 	
 	var tab_anno = view_main.getAnnotations();
+	
 	Ti.API.info('Annotations de la map : \n'+tab_anno);
 	tab_anno[0].latitude = obj_coords.latitude;
 	tab_anno[0].longitude = obj_coords.longitude;
 	view_main.setAnnotations(tab_anno);
 	
-	
-	id_anno++;
-	
 	var anno_new = Ti.Map.createAnnotation({
-		id : id_anno,
+		titleid : _geo.getAnno_current().getTitleid() + 1,
 		animate : true,
 		pincolor : Titanium.Map.ANNOTATION_GREEN,
 		title : 'Vous êtes ici !',
@@ -171,9 +206,17 @@ Ti.App.addEventListener('evtLocationUpdate', function(obj_coords){
 		longitude : obj_coords.longitude
 	});
 	
-	anno_current = anno;
+	_geo.setAnno_current(anno_new);
 	
-	view_main.addAnnotation(anno_current);
+	view_main.addAnnotation(_geo.getAnno_current());
+});
+
+
+
+view_top.addEventListener('swipe', function(e){
+		
+	Ti.API.info('Ca marche');
+	
 });
 
 
@@ -182,6 +225,7 @@ Ti.App.addEventListener('evtLocationUpdate', function(obj_coords){
  */
 
 view_top.add(lab_timer);
+view_top.add(btn_scroll);
 view_main.add(btn_start);
 view_main.add(btn_pause);
 view_main.add(btn_stop);

@@ -14,9 +14,10 @@ function Geo() {
 	this.LATITUDE_BASE = 38.500000;
 	this.LONGITUDE_BASE = -121.050210;
 	this.annos = []; //map's annotations
+	this.isTrackStarted = false;
 	this.arr_GPXpos = this.getGPXtrace();
 	this.anno_current = Ti.Map.createAnnotation({
-		id : 0,
+		titleid : 0,
 		animate : true,
 		pincolor : Titanium.Map.ANNOTATION_GREEN,
 		title : 'Vous êtes ici !',
@@ -82,6 +83,9 @@ Geo.prototype.getGPXtrace = function() {
 	
 	return tab_XMLpositions;
 };
+
+
+
 
 /*
  * Accessors
