@@ -6,6 +6,7 @@
 /*
  * global vars
  */
+
 //Invoke geo services
 var Geo = require('services/business_services/geo'); 
 var _geo =  new Geo();
@@ -27,6 +28,7 @@ function displayAlertCallback() {
 	
 }
 
+
 /*
  * UI elements
  */
@@ -44,7 +46,7 @@ var view_main = Titanium.Map.createView({
 });
 
 var view_top = Titanium.UI.createView({
-	backgroundColor:'#0AA',
+	backgroundColor:'#000',
 	height:100,
 	width:'auto',
 	top:-100
@@ -55,7 +57,7 @@ var btn_scroll = Ti.UI.createButton({
 	width : 20,
 	title : 'o',
 	bottom : 0,
-	left : 110,
+	left : 130,
 	color : "red"
 });
 
@@ -85,7 +87,55 @@ var btn_stop = Ti.UI.createButton({
 });
 
 var lab_timer =  Ti.UI.createLabel({
-	text:"start?",
+	text:"00 : 00 : 00",
+	height:40,
+	width:200,
+	top:0,
+	right:0,
+	color:'#fff',
+	borderRadius:10,
+	backgroundColor:'#000',
+	font:{
+		fontSize:30,
+		fontWeight:'bold'
+	},
+	textAlign:'center'
+});
+
+var lab_distance =  Ti.UI.createLabel({
+	text:"Distance 00 km",
+	height:40,
+	width:50,
+	top:0,
+	right:0,
+	color:'#fff',
+	borderRadius:10,
+	backgroundColor:'#000',
+	font:{
+		fontSize:10,
+		fontWeight:'bold'
+	},
+	textAlign:'center'
+});
+
+var lab_speed =  Ti.UI.createLabel({
+	text:"Vitesse 00 km/h",
+	height:40,
+	width:50,
+	bottom:0,
+	left:0,
+	color:'#fff',
+	borderRadius:10,
+	backgroundColor:'#000',
+	font:{
+		fontSize:10,
+		fontWeight:'bold'
+	},
+	textAlign:'center'
+});
+
+var lab_calories =  Ti.UI.createLabel({
+	text:"Calories 000",
 	height:40,
 	width:230,
 	top:0,
@@ -100,6 +150,21 @@ var lab_timer =  Ti.UI.createLabel({
 	textAlign:'center'
 });
 
+var lab_avgspeed =  Ti.UI.createLabel({
+	text:"Vitesse moy. 00 km/h",
+	height:40,
+	width:230,
+	top:0,
+	left:0,
+	color:'#fff',
+	borderRadius:10,
+	backgroundColor:'#000',
+	font:{
+		fontSize:10,
+		fontWeight:'bold'
+	},
+	textAlign:'center'
+});
 
 
 /*
@@ -178,6 +243,7 @@ btn_scroll.addEventListener('click', function(){
 		view_top.animate(scrolldownAnimation);
 		scrolled = true;	
 	} else {
+		//ScrollUp animation
 		var scrollUpAnimation = Ti.UI.createAnimation({
 			top : -80,
 			duration : 800 

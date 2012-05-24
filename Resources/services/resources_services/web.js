@@ -67,7 +67,7 @@ exports.postUserInfo = function(user_args){
 		    timeout: 5000  /* in milliseconds */
 		});
 		
-		xhr.open("GET","http://localhost:8888/post_auth.php"); //replace by url var
+		xhr.open("POST","http://localhost:8888/post_auth.php"); //replace by url var
 		xhr.send({
 			login: user_args.login,
 			password: Ti.Utils.md5HexDigest(user_args.password1),

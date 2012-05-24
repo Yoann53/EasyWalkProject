@@ -9,6 +9,7 @@
 /*
  * Constructor
  */
+
 function Geo() {
 	
 	this.LATITUDE_BASE = 38.500000;
