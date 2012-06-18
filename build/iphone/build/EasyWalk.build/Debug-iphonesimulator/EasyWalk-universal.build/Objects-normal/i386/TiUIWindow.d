@@ -28,4 +28,13 @@ dependencies: \
   /Users/yoanngauchard/Documents/Titanium\ Studio\ Workspace/EasyWalk/build/iphone/Classes/TiBuffer.h \
   /Users/yoanngauchard/Documents/Titanium\ Studio\ Workspace/EasyWalk/build/iphone/Classes/TiBlob.h \
   /Users/yoanngauchard/Documents/Titanium\ Studio\ Workspace/EasyWalk/build/iphone/Classes/LayoutConstraint.h \
-  /Users/yoanngauchard/Documents/Titanium\ Studio\ Workspace/EasyWalk/build/iphone/Classes/TiGradient.h
+  /Users/yoanngauchard/Documents/Titanium\ Studio\ Workspace/EasyWalk/build/iphone/Classes/TiGradient.h \
+  /Users/yoanngauchard/Documents/Titanium\ Studio\ Workspace/EasyWalk/build/iphone/Classes/TiUIWindowProxy.h \
+  /Users/yoanngauchard/Documents/Titanium\ Studio\ Workspace/EasyWalk/build/iphone/Classes/TiWindowProxy.h \
+  /Users/yoanngauchard/Documents/Titanium\ Studio\ Workspace/EasyWalk/build/iphone/Classes/TiViewProxy.h \
+  /Users/yoanngauchard/Documents/Titanium\ Studio\ Workspace/EasyWalk/build/iphone/Classes/TiRect.h \
+  /Users/yoanngauchard/Documents/Titanium\ Studio\ Workspace/EasyWalk/build/iphone/Classes/TiTab.h \
+  /Users/yoanngauchard/Documents/Titanium\ Studio\ Workspace/EasyWalk/build/iphone/Classes/TiTabGroup.h \
+  /Users/yoanngauchard/Documents/Titanium\ Studio\ Workspace/EasyWalk/build/iphone/Classes/TiViewController.h \
+  /Users/yoanngauchard/Documents/Titanium\ Studio\ Workspace/EasyWalk/build/iphone/Classes/KrollBridge.h \
+  /Users/yoanngauchard/Documents/Titanium\ Studio\ Workspace/EasyWalk/build/iphone/Classes/Bridge.h

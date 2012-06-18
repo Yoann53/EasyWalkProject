@@ -35,7 +35,8 @@ btn_signup.addEventListener('click', function()
 		title: 'Inscription',
 		backgroundColor:'#336699',
 		url: 'signup.js',
-		backButtonTitle: 'Retour'
+		backButtonTitle: 'Retour',
+		barColor: '#336600'
 	});
 
 	Ti.UI.currentTab.open(win_signup);
@@ -47,7 +48,8 @@ btn_login.addEventListener('click', function()
 		title: 'Authentification',
 		backgroundColor:'#336699',
 		url: 'login.js',
-		backButtonTitle: 'Retour'
+		backButtonTitle: 'Retour',
+		barImage:'../navBar.png' 
 	});
 
 	Ti.UI.currentTab.open(win_login);
