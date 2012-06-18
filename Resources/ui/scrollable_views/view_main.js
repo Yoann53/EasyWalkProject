@@ -12,7 +12,7 @@ var Geo = require('services/business_services/geo');
 var _geo =  new Geo();
 
 //Invoke Timer class
-var Timer = require('services/utils_services/timer')
+var Timer = require('services/utils_services/timer');
 var _timer;
 
 var scrolled = false;

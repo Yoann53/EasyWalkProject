@@ -13,15 +13,19 @@ exports.ApplicationWindow = function() {
 	if(!logged){
 		//First start 
 		var win_welcome = Titanium.UI.createWindow({  
-	    	title:'Bienvenue sur EasyWalk',
+	    	//title:'Bienvenue sur EasyWalk',
 	    	backgroundColor:'#336699',
-	    	url:'ui/first_start/welcome.js'  
+	    	url:'ui/first_start/welcome.js',
+	    	barImage:'ui/navBar.png'
+	    	//barColor: '#336600'
 		});	
 	} else {
 		var win_welcome = Titanium.UI.createWindow({  
-	    	title:'Bienvenue sur EasyWalk',
+	    	//title:'Bienvenue sur EasyWalk',
 	    	backgroundColor:'#336699',
-	    	url:'ui/start.js'  
+	    	url:'ui/start.js',
+	    	barImage:'ui/navBar.png'  
+			//barColor: '#336600'
 		});
 	}//end else  
 	  
@@ -31,7 +35,7 @@ exports.ApplicationWindow = function() {
 	});    
 	
 	//Hide TabBar
-	win_welcome.hideTabBar();  
+	win_welcome.hideTabBar();
 	tabGroup.addTab(tab_welcome);    
 	tabGroup.open();  
 	
