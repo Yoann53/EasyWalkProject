@@ -1,0 +1,14 @@
+Logfile initialized
+[INFO] logfile = /Users/yoanngauchard/Documents/Titanium Studio Workspace/EasyWalk2/build.log
+[DEBUG] /Users/yoanngauchard/Library/Application Support/Titanium/mobilesdk/osx/2.0.2.GA/android/builder.py simulator EasyWalk2 /Users/yoanngauchard/android-sdk /Users/yoanngauchard/Documents/Titanium Studio Workspace/EasyWalk2 com.TeamEasyWalk.EasyWalk 4 HVGA 
+[INFO] Building EasyWalk2 for Android ... one moment
+[INFO] Titanium SDK version: 2.0.2 (05/30/12 10:21 2ff31a3)
+[DEBUG] Waiting for device to be ready ...
+[TRACE] adb devices returned 0 devices/emulators
+[TRACE] adb devices returned 0 devices/emulators
+[TRACE] adb devices returned 0 devices/emulators
+[TRACE] adb devices returned 0 devices/emulators
+[TRACE] adb devices returned 0 devices/emulators
+[TRACE] adb devices returned 0 devices/emulators
+[ERROR] Timed out waiting for emulator to be ready, you may need to close the emulator and try again
+[INFO] Android Emulator has exited

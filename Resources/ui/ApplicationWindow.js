@@ -35,7 +35,7 @@ exports.ApplicationWindow = function() {
 	});    
 	
 	//Hide TabBar
-	win_welcome.hideTabBar();
+	//win_welcome.hideTabBar();
 	tabGroup.addTab(tab_welcome);    
 	tabGroup.open();  
 	
